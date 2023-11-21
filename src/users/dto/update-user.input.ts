@@ -10,10 +10,10 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
 
   @IsString()
   @IsEmail()
-  @Field(() => ID)
-  email: string;
+  @Field(() => ID, { nullable: true })
+  email?: string;
 
   @IsString()
-  @Field(() => ID)
-  password: string;
+  @Field(() => ID, {nullable: true})
+  password?: string;
 }
