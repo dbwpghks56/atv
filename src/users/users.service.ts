@@ -4,6 +4,8 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { PG_CONNECTION } from 'src/constants';
 import * as schema from '../schema/schema';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { eq } from 'drizzle-orm';
+import { users } from '../schema/schema';
 
 @Injectable()
 export class UsersService {
@@ -12,7 +14,9 @@ export class UsersService {
   ) {}
 
   create(createUserInput: CreateUserInput) {
-    return this.dbConn.insert(schema.users).values(createUserInput);
+    return this.dbConn.insert(users).values(createUserInput).returning({
+      email: users.email,
+    });
   }
 
   findAll() {
@@ -20,11 +24,18 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.dbConn.query.users.findFirst({
+      where: eq(users.user_id, id)
+    });
   }
 
   update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+    
+
+    return this.dbConn.update(users).set({
+      email: updateUserInput.email,
+      password: updateUserInput.password
+    }).where(eq(users.user_id, id)).returning();
   }
 
   remove(id: number) {

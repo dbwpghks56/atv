@@ -3,9 +3,10 @@
 # ------------------------------------------------------
 
 type User {
+  user_id: Float!
+
   """Example field (placeholder)"""
   email: String!
-  password: String!
 }
 
 type Query {
@@ -28,10 +29,7 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  email: String
-
-  """Example field (placeholder)"""
-  password: String
+  email: ID!
+  password: ID!
   id: Int!
 }
