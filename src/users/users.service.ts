@@ -24,10 +24,16 @@ export class UsersService {
     );
 
     createUserInput.password = hashedPassword;
-  
-    return await this.dbConn.insert(users).values(createUserInput).returning({
-      email: users.email,
+    
+    const user = await this.dbConn.transaction(async (tx) => {
+      return await tx.insert(users).values(createUserInput).returning({
+        email: users.email,
+      }).catch((e) => {
+        tx.rollback();
+      });
     });
+    
+    return user[0];
   }
 
   async signIn(signInUserInput: SignInUserInput) {
@@ -42,8 +48,15 @@ export class UsersService {
     return user;
   }
 
-  findAll() {
-    return this.dbConn.query.users.findMany();
+  findAll(requestInfo: string[]) {
+    console.log(requestInfo);
+    
+    return this.dbConn.query.users.findMany({
+      columns: {
+        user_id: requestInfo.includes('user_id'),
+        email: requestInfo.includes('email')
+      }
+    });
   }
 
   findOne(id: number) {
