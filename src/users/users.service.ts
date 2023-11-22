@@ -9,6 +9,7 @@ import { users } from '../schema/schema';
 import * as bcrypt from 'bcrypt';
 import { SignInUserInput } from './dto/signIn-user.input';
 import { Gender } from './enums/user.enum';
+import { queryColumns } from 'src/config/util/query-columns.util';
 
 export const roundsOfHashing = 10;
 
@@ -68,16 +69,7 @@ export class UsersService {
     console.log(requestInfo);
     
     return this.dbConn.query.users.findMany({
-      columns: {
-        user_id: requestInfo.includes('user_id'),
-        email: requestInfo.includes('email'),
-        nickname: requestInfo.includes('nickname'),
-        birth: requestInfo.includes('birth'),
-        gender: requestInfo.includes('gender'),
-        status: requestInfo.includes('status'),
-        createdTime: requestInfo.includes('createdTime'),
-        updatedTime: requestInfo.includes('updatedTime')
-      }
+      columns: queryColumns(requestInfo)
     });
   }
 
