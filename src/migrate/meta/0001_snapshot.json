@@ -1,6 +1,6 @@
 {
-  "id": "5b88e824-fbfa-4c79-9fca-e3fb569cd3d5",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "b1fffe6c-9562-463b-b537-665f621d9d1f",
+  "prevId": "5b88e824-fbfa-4c79-9fca-e3fb569cd3d5",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -22,6 +22,12 @@
         },
         "password": {
           "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "profile_image": {
+          "name": "profile_image",
           "type": "text",
           "primaryKey": false,
           "notNull": false

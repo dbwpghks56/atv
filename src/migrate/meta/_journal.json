@@ -5,8 +5,22 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1700542897387,
-      "tag": "0000_married_lord_hawal",
+      "when": 1700617791258,
+      "tag": "0000_true_moonstone",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1700630038929,
+      "tag": "0001_special_maverick",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1700631840481,
+      "tag": "0002_thick_rockslide",
       "breakpoints": true
     }
   ]

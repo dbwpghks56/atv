@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Pool } from 'pg';
-import {migrate} from 'drizzle-orm/node-postgres/migrator';
-import {drizzle} from 'drizzle-orm/node-postgres';
+import { migrate } from 'drizzle-orm/node-postgres/migrator';
+import { drizzle } from 'drizzle-orm/node-postgres';
 import * as schema from '../schema/schema';
-import { PG_CONNECTION } from 'src/constants';
+import { MIGRATE } from 'src/constants';
 
 @Module({
     providers: [{
-        provide: PG_CONNECTION,
+        provide: MIGRATE,
         inject: [ConfigService],
         useFactory: async (configService: ConfigService) => {
             const pool = new Pool({
@@ -20,13 +20,17 @@ import { PG_CONNECTION } from 'src/constants';
             });
 
             const client = await pool.connect();
-            const db = drizzle(client, { schema, logger: true });
-
-            // await migrate(db, { migrationsFolder: "../migrate" });
-
-            return db
+            const db = drizzle(client, { schema });
+            
+            try {
+                await migrate(db, { migrationsFolder: 'src/migrate/' });
+            } catch(e) {
+                
+            } finally {
+                
+            }
         }
     }],
-    exports: [PG_CONNECTION]
+    exports: [MIGRATE]
 })
-export class DrizzleModule {}
+export class MigrateModule { }

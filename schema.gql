@@ -7,6 +7,23 @@ type User {
 
   """Example field (placeholder)"""
   email: String!
+
+  """Example field (placeholder)"""
+  nickname: String!
+
+  """Example field (placeholder)"""
+  birth: String!
+
+  """Example field (placeholder)"""
+  gender: Gender!
+  status: Boolean!
+  createdTime: String!
+  updatedTime: String!
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
 
 type Query {
@@ -27,15 +44,24 @@ input CreateUserInput {
 
   """Example field (placeholder)"""
   password: String!
+  nickname: String!
+  birth: String!
+  gender: Gender!
 }
 
 input SignInUserInput {
   email: ID!
   password: ID!
+  nickname: String
+  birth: String
+  gender: Gender
 }
 
 input UpdateUserInput {
   email: ID
   password: ID
+  nickname: String
+  birth: String
+  gender: Gender
   id: Int!
 }

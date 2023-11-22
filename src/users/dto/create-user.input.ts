@@ -1,5 +1,10 @@
-import { InputType, Int, Field,  } from '@nestjs/graphql';
-import { IsEmail, IsString } from 'class-validator';
+import { InputType, Int, Field, registerEnumType,  } from '@nestjs/graphql';
+import { IsDate, IsEmail, IsEnum, IsString } from 'class-validator';
+import { Gender } from '../enums/user.enum';
+
+registerEnumType(Gender, {
+  name: 'Gender'
+});
 
 @InputType()
 export class CreateUserInput {
@@ -11,4 +16,16 @@ export class CreateUserInput {
   @IsString()
   @Field({ description: 'Example field (placeholder)' })
   password: string;
+
+  @IsString()
+  @Field()
+  nickname: string;
+
+  @IsString()
+  @Field()
+  birth: string;
+
+  @IsEnum(Gender)
+  @Field(type => Gender)
+  gender: Gender;
 }

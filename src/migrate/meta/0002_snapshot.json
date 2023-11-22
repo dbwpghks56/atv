@@ -1,6 +1,6 @@
 {
-  "id": "5b88e824-fbfa-4c79-9fca-e3fb569cd3d5",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "71198273-765d-432c-8394-3356854b1591",
+  "prevId": "b1fffe6c-9562-463b-b537-665f621d9d1f",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -22,6 +22,12 @@
         },
         "password": {
           "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "profile_image": {
+          "name": "profile_image",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -84,8 +90,8 @@
     "gender": {
       "name": "gender",
       "values": {
-        "male": "male",
-        "female": "female"
+        "MALE": "MALE",
+        "FEMALE": "FEMALE"
       }
     }
   },

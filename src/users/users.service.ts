@@ -8,6 +8,7 @@ import { eq } from 'drizzle-orm';
 import { users } from '../schema/schema';
 import * as bcrypt from 'bcrypt';
 import { SignInUserInput } from './dto/signIn-user.input';
+import { Gender } from './enums/user.enum';
 
 export const roundsOfHashing = 10;
 
@@ -26,8 +27,23 @@ export class UsersService {
     createUserInput.password = hashedPassword;
     
     const user = await this.dbConn.transaction(async (tx) => {
-      return await tx.insert(users).values(createUserInput).returning({
+      const gender = Gender[createUserInput.gender];
+
+      return await tx.insert(users).values({
+        email: createUserInput.email,
+        password: createUserInput.password,
+        nickname: createUserInput.nickname,
+        birth: createUserInput.birth,
+        gender: gender
+      }).returning({
+        user_id: users.user_id,
         email: users.email,
+        nickname: users.nickname,
+        birth: users.birth,
+        gender: users.gender,
+        status: users.status,
+        createdTime: users.createdTime,
+        updatedTime: users.updatedTime
       }).catch((e) => {
         tx.rollback();
       });
@@ -54,7 +70,13 @@ export class UsersService {
     return this.dbConn.query.users.findMany({
       columns: {
         user_id: requestInfo.includes('user_id'),
-        email: requestInfo.includes('email')
+        email: requestInfo.includes('email'),
+        nickname: requestInfo.includes('nickname'),
+        birth: requestInfo.includes('birth'),
+        gender: requestInfo.includes('gender'),
+        status: requestInfo.includes('status'),
+        createdTime: requestInfo.includes('createdTime'),
+        updatedTime: requestInfo.includes('updatedTime')
       }
     });
   }
