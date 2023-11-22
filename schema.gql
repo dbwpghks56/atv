@@ -27,7 +27,7 @@ enum Gender {
 }
 
 type Query {
-  users: [User!]!
+  users(page: Int!, pageSize: Int): [User!]!
   user(id: Int!): User!
 }
 

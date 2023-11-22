@@ -65,18 +65,17 @@ export class UsersService {
     return user;
   }
 
-  findAll(requestInfo: string[]) {
+  findAll(requestInfo: string[], page:number, pageSize?:number) {
     console.log(requestInfo);
     
     return this.dbConn.query.users.findMany({
-      columns: queryColumns(requestInfo)
+      columns: queryColumns(requestInfo),
+      limit: pageSize ?? 10,
+      offset: page * (pageSize ?? 10)
     });
   }
 
   findOne(id: number) {
-    const user = this.dbConn.query.users.findFirst({
-      where: eq(users.user_id, id)
-    });
 
     return this.dbConn.query.users.findFirst({
       where: eq(users.user_id, id)

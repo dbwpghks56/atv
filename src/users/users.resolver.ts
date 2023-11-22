@@ -21,8 +21,12 @@ export class UsersResolver {
   }
 
   @Query(() => [User], { name: 'users' })
-  findAll(@GraphQLInfo() requestInfo: string[]) {
-    return this.usersService.findAll(requestInfo);
+  findAll(
+    @GraphQLInfo() requestInfo: string[],
+    @Args('page', { type: () => Int }) page: number,
+    @Args('pageSize', { type: () => Int, nullable: true}) pageSize?: number
+  ) {
+    return this.usersService.findAll(requestInfo, page, pageSize);
   }
   @Query(() => User, { name: 'user' })
   findOne(@Args('id', { type: () => Int }) id: number) {
