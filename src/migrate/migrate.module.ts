@@ -25,7 +25,7 @@ import { MIGRATE } from 'src/constants';
             try {
                 await migrate(db, { migrationsFolder: 'src/migrate/' });
             } catch(e) {
-                
+                console.log(e);
             } finally {
                 
             }
