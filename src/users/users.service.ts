@@ -7,7 +7,7 @@ import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { eq } from 'drizzle-orm';
 import { users } from '../schema/schema';
 import * as bcrypt from 'bcrypt';
-import { SignInUserInput } from './dto/signIn-user.input';
+import { LogInUserInput } from '../auth/dto/signIn-user.input';
 import { Gender } from './enums/user.enum';
 import { queryColumns } from 'src/config/util/query-columns.util';
 
@@ -51,18 +51,6 @@ export class UsersService {
     });
     
     return user[0];
-  }
-
-  async signIn(signInUserInput: SignInUserInput) {
-    const user = await this.dbConn.query.users.findFirst({
-      where: eq(users.email, signInUserInput.email)
-    });
-
-    const isPasswordValid = await bcrypt.compare(signInUserInput.password, user.password);
-
-    if (!isPasswordValid) throw new UnauthorizedException('Invalid Password');
-
-    return user;
   }
 
   findAll(requestInfo: string[], page:number, pageSize?:number) {

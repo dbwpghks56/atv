@@ -31,6 +31,8 @@ jobs:
                   secret: DATABASE_USER
                 - name: DATABASE_PASSWORD
                   secret: DATABASE_PASSWORD
+                - name: JSON_SECRET
+                  secret: JSON_SECRET
               ports: 3000
               build: npm run build
               start: npm run start:prod

@@ -1,10 +1,14 @@
-import { Resolver, Query, Mutation, Args, Int, Info } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Info, Context } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { SignInUserInput } from './dto/signIn-user.input';
+import { LogInUserInput } from '../auth/dto/signIn-user.input';
 import { GraphQLInfo } from 'src/config/decorators/graphQL.decorator';
+import { Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtUser } from 'src/config/decorators/jwt-user.decorator';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -15,9 +19,13 @@ export class UsersResolver {
     return this.usersService.signUp(createUserInput);
   }
 
-  @Mutation(() => User)
-  signIn(@Args('signInUserInput') signInUserInput: SignInUserInput) {
-    return this.usersService.signIn(signInUserInput);
+  @Query(() => User, {name: 'toMe'})
+  @UseGuards(JwtAuthGuard)
+  toMe(
+    @JwtUser() user:User
+  ){
+    console.log(user);
+    
   }
 
   @Query(() => [User], { name: 'users' })

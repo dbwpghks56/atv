@@ -26,16 +26,21 @@ enum Gender {
   FEMALE
 }
 
+type LoginJwt {
+  access_token: String!
+}
+
 type Query {
+  toMe: User!
   users(page: Int!, pageSize: Int): [User!]!
   user(id: Int!): User!
 }
 
 type Mutation {
   signUp(createUserInput: CreateUserInput!): User!
-  signIn(signInUserInput: SignInUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  logIn(loginInput: LogInUserInput!): LoginJwt!
 }
 
 input CreateUserInput {
@@ -49,14 +54,6 @@ input CreateUserInput {
   gender: Gender!
 }
 
-input SignInUserInput {
-  email: ID!
-  password: ID!
-  nickname: String
-  birth: String
-  gender: Gender
-}
-
 input UpdateUserInput {
   email: ID
   password: ID
@@ -64,4 +61,9 @@ input UpdateUserInput {
   birth: String
   gender: Gender
   id: Int!
+}
+
+input LogInUserInput {
+  email: ID!
+  password: ID!
 }
