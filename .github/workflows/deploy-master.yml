@@ -33,7 +33,7 @@ jobs:
                   secret: DATABASE_PASSWORD
               ports: 3000
               build: npm run build
-              start: npm run start:prod
+              start: npm run start:dev
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
