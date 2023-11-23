@@ -1,0 +1,41 @@
+name: Deploy to cloudtype
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Connect deploy key
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: wpghks56/nest
+          stage: main
+          yaml: |
+            name: atv
+            app: node@18
+            options:
+              env:
+                - name: DATABASE_HOST
+                  secret: DATABASE_HOST
+                - name: DATABASE_USER
+                  secret: DATABASE_USER
+                - name: DATABASE_PASSWORD
+                  secret: DATABASE_PASSWORD
+              ports: 3000
+              build: npm run build
+              start: npm run start:prod
+            context:
+              git:
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
+              preset: nest.js
