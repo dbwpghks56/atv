@@ -24,7 +24,6 @@ export class UsersResolver {
   toMe(
     @JwtUser() user:User
   ){
-    console.log(user);
     
   }
 
