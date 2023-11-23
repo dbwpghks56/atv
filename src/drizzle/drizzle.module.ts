@@ -16,7 +16,7 @@ import { PG_CONNECTION } from 'src/constants';
                 port: 32119,
                 user: configService.get<string>('DATABASE_USER'),
                 password: configService.get<string>('DATABASE_PASSWORD'),
-                database: 'postgres'
+                database: 'postgres',
             });
 
             const client = await pool.connect();
