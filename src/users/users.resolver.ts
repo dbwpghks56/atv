@@ -19,12 +19,15 @@ export class UsersResolver {
     return this.usersService.signUp(createUserInput);
   }
 
-  @Query(() => User, {name: 'toMe'})
+  @Query(() => User, {
+    name: 'toMe',
+    description: 'Header 에 Jwt Token 을 받아와 로그인한 유저가 누군지 조회'
+  })
   @UseGuards(JwtAuthGuard)
   toMe(
     @JwtUser() user:User
   ){
-    
+    return user;
   }
 
   @Query(() => [User], { name: 'users' })

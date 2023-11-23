@@ -30,16 +30,29 @@ type LoginJwt {
   access_token: String!
 }
 
+type Post {
+  post_id: Float!
+  title: String!
+  content: String!
+  author: User!
+  status: Boolean!
+  createdTime: String!
+  updatedTime: String!
+}
+
 type Query {
+  """Header 에 Jwt Token 을 받아와 로그인한 유저가 누군지 조회"""
   toMe: User!
   users(page: Int!, pageSize: Int): [User!]!
   user(id: Int!): User!
+  findAllPost(page: Int!, pageSize: Int): [Post!]!
 }
 
 type Mutation {
   signUp(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  createPost(createPostInput: CreatePostInput!): Post!
   logIn(loginInput: LogInUserInput!): LoginJwt!
 }
 
@@ -61,6 +74,12 @@ input UpdateUserInput {
   birth: String
   gender: Gender
   id: Int!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String!
+  user_id: Float
 }
 
 input LogInUserInput {
