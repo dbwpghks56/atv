@@ -10,6 +10,9 @@ import * as bcrypt from 'bcrypt';
 import { LogInUserInput } from '../auth/dto/signIn-user.input';
 import { Gender } from './enums/user.enum';
 import { queryColumns } from 'src/config/util/query-columns.util';
+import { year } from 'drizzle-orm/mysql-core';
+import { date } from 'drizzle-orm/pg-core';
+import { User } from './entities/user.entity';
 
 export const roundsOfHashing = 10;
 
@@ -73,16 +76,43 @@ export class UsersService {
     });
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    
+  async update(user: User, updateUserInput: UpdateUserInput) {
 
-    return this.dbConn.update(users).set({
-      email: updateUserInput.email,
-      password: updateUserInput.password
-    }).where(eq(users.user_id, id)).returning();
+    const updatedUser = await this.dbConn.update(users).set({
+      email: updateUserInput.email ?? user.email,
+      nickname: updateUserInput.nickname ?? user.nickname,
+      gender: updateUserInput.gender ?? user.gender,
+      birth: updateUserInput.birth ?? user.birth,
+      updatedTime: new Date().toUTCString()
+    }).where(eq(users.user_id, user.user_id)).returning({
+      user_id: users.user_id,
+      email: users.email,
+      nickname: users.nickname,
+      birth: users.birth,
+      gender: users.gender,
+      status: users.status,
+      createdTime: users.createdTime,
+      updatedTime: users.updatedTime
+    });
+
+    return updatedUser[0];
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const removedUser = await this.dbConn.update(users).set({
+      status: false,
+      updatedTime: new Date().toUTCString()
+    }).where(eq(users.user_id, id)).returning({
+      user_id: users.user_id,
+      email: users.email,
+      nickname: users.nickname,
+      birth: users.birth,
+      gender: users.gender,
+      status: users.status,
+      createdTime: users.createdTime,
+      updatedTime: users.updatedTime
+    });
+
+    return removedUser[0];
   }
 }

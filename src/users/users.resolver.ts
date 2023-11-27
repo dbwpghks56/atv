@@ -44,12 +44,18 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.usersService.update(updateUserInput.id, updateUserInput);
+  @UseGuards(JwtAuthGuard)
+  updateUser(
+    @JwtUser() user: User,
+    @Args('updateUserInput') updateUserInput: UpdateUserInput
+    ) {
+    
+    return this.usersService.update(user, updateUserInput);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.usersService.remove(id);
+  removeUser(@JwtUser() user: User) {
+    return this.usersService.remove(user.user_id);
   }
 }

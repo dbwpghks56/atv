@@ -51,7 +51,7 @@ type Query {
 type Mutation {
   signUp(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  removeUser: User!
   createPost(createPostInput: CreatePostInput!): Post!
   logIn(loginInput: LogInUserInput!): LoginJwt!
 }
@@ -68,12 +68,14 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  email: ID
-  password: ID
+  """Example field (placeholder)"""
+  email: String
+
+  """Example field (placeholder)"""
+  password: String
   nickname: String
   birth: String
   gender: Gender
-  id: Int!
 }
 
 input CreatePostInput {
