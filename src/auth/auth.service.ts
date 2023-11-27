@@ -9,6 +9,7 @@ import { users } from '../schema/schema';
 import { eq } from 'drizzle-orm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +20,11 @@ export class AuthService {
 
     async login(loginInput: LogInUserInput) : Promise<LoginJwt> {
         const user = await this.dbConn.query.users.findFirst({
+            columns: {
+                user_id: true,
+                email: true,
+                password: true
+            },
             where: eq(users.email, loginInput.email)
         });
 

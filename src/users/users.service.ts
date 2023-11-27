@@ -66,6 +66,9 @@ export class UsersService {
   findOne(id: number) {
 
     return this.dbConn.query.users.findFirst({
+      columns: {
+        password: false,
+      },
       where: eq(users.user_id, id)
     });
   }
