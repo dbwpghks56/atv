@@ -34,7 +34,7 @@ type Post {
   post_id: Float!
   title: String!
   content: String!
-  author: User!
+  author: User
   status: Boolean!
   createdTime: String!
   updatedTime: String!
@@ -46,6 +46,8 @@ type Query {
   users(page: Int!, pageSize: Int): [User!]!
   user(id: Int!): User!
   findAllPost(page: Int!, pageSize: Int): [Post!]!
+  findPost(post_id: Int!): Post!
+  findPostByUser(user_id: Int!): Post!
 }
 
 type Mutation {

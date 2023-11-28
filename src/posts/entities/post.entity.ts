@@ -12,7 +12,7 @@ export class Post {
     @Field()
     content: string;
 
-    @Field()
+    @Field({nullable: true})
     author: User;
 
     @Field()

@@ -29,4 +29,20 @@ export class PostsResolver {
   ) {
     return this.postsService.findAllPosts(requestInfo, page, pageSize);
   }
+
+  @Query(() => Post, {name: 'findPost'})
+  findPost(
+    @GraphQLInfo() requestInfo: string[],
+    @Args('post_id', { type: () => Int }) post_id: number
+  ) {
+    return this.postsService.findPost(post_id, requestInfo);
+  }
+
+  @Query(() => Post, {name: 'findPostByUser'})
+  findPostByUser(
+    @GraphQLInfo() requestInfo: string[],
+    @Args('user_id', {type: () => Int}) user_id:number
+  ) {
+    return this.postsService.findPostByUser(requestInfo, user_id);
+  }
 }

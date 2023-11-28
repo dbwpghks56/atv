@@ -17,7 +17,7 @@ export const users = pgTable('user', {
 });
 
 export const userRelations = relations(users, ({ many }) => ({
-    posts: many(posts),
+    posts: many(posts, {relationName: 'post_author'}),
 }));
 
 export const posts = pgTable('tb_post', {
@@ -28,7 +28,7 @@ export const posts = pgTable('tb_post', {
     status: boolean('status').default(true),
     createdTime: date('createdTime').defaultNow(),
     updatedTime: date('updatedTime').defaultNow()
-})
+});
 
 export const postRelations = relations(posts, ({ one }) => ({
     author: one(users, {
