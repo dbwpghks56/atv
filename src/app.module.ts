@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { ApolloDriver } from '@nestjs/apollo';
 import { AuthModule } from './auth/auth.module';
 import { PostsModule } from './posts/posts.module';
+import { SubmissionModule } from './submission/submission.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { PostsModule } from './posts/posts.module';
     }),
     UsersModule,
     PostsModule,
-    AuthModule
+    AuthModule,
+    SubmissionModule
   ],
   controllers: [AppController],
   providers: [
