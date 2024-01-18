@@ -5,6 +5,7 @@ import { DrizzleModule } from 'src/drizzle/drizzle.module';
 
 @Module({
   providers: [PostsResolver, PostsService],
-  imports: [DrizzleModule]
+  imports: [DrizzleModule],
+  exports: [PostsService]
 })
 export class PostsModule {}

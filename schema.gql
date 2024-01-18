@@ -19,15 +19,12 @@ type User {
   status: Boolean!
   createdTime: String!
   updatedTime: String!
+  userPost: [Post!]!
 }
 
 enum Gender {
   MALE
   FEMALE
-}
-
-type LoginJwt {
-  access_token: String!
 }
 
 type Post {
@@ -38,6 +35,10 @@ type Post {
   status: Boolean!
   createdTime: String!
   updatedTime: String!
+}
+
+type LoginJwt {
+  access_token: String!
 }
 
 type Query {

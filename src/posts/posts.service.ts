@@ -68,7 +68,7 @@ export class PostsService {
         requestInfo: string[],
         user_id: number
     ):Promise<{}> {
-        const post = await this.dbConn.query.posts.findFirst({
+        const post = await this.dbConn.query.posts.findMany({
             columns: queryColumns(requestInfo),
             where: eq(posts.user_id, user_id)
         });

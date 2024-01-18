@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int, Info, Context } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Info, Context, ResolveField, Parent } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
@@ -9,10 +9,12 @@ import { Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { JwtUser } from 'src/config/decorators/jwt-user.decorator';
+import { Post } from 'src/posts/entities/post.entity';
+import { PostsService } from 'src/posts/posts.service';
 
 @Resolver(() => User)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService, private readonly postService: PostsService) {}
 
   @Mutation(() => User)
   signUp(@Args('createUserInput') createUserInput: CreateUserInput) {
@@ -58,4 +60,10 @@ export class UsersResolver {
   removeUser(@JwtUser() user: User) {
     return this.usersService.remove(user.user_id);
   }
+
+  @ResolveField(() => [Post])
+  userPost(@Parent() user: User) {
+    return this.postService.findPostByUser(["title","content"],user.user_id);
+  }
+
 }

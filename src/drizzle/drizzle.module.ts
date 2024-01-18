@@ -13,7 +13,7 @@ import { PG_CONNECTION } from 'src/constants';
         useFactory: async (configService: ConfigService) => {
             const pool = new Pool({
                 host: configService.get<string>('DATABASE_HOST'),
-                port: 32119,
+                port: 31060,
                 user: configService.get<string>('DATABASE_USER'),
                 password: configService.get<string>('DATABASE_PASSWORD'),
                 database: 'postgres',
